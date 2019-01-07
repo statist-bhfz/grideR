@@ -5,7 +5,9 @@ across_grid <- function(data,
                         fit_fun,
                         preproc_fun,
                         grid,
-                        args, ...) {
+                        args,
+                        metrics,
+                        ...) {
 
     metrics <- lapply(seq_len(nrow(grid)),
                       function(i) fit_fun(data = data,
@@ -13,7 +15,8 @@ across_grid <- function(data,
                                           split = split,
                                           preproc_fun = preproc_fun,
                                           params = grid[i, ],
-                                          args = args))
+                                          args = args,
+                                          metrics = metrics))
 
     metrics <- rbindlist(metrics)
 
@@ -55,7 +58,8 @@ xgb_fit(data = dt,
         split = splits[, split_1],
         preproc_fun = preproc_fun_example,
         params = xgb_grid[1, ],
-        args = xgb_args)
+        args = xgb_args,
+        metrics = c("rmse", "mae"))
 
 across_grid(data = dt,
             target = "hp",
@@ -63,4 +67,5 @@ across_grid(data = dt,
             fit_fun = xgb_fit,
             preproc_fun = preproc_fun_example,
             grid = xgb_grid,
-            args = xgb_args)
+            args = xgb_args,
+            metrics = c("rmse", "mae"))

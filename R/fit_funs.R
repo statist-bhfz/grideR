@@ -1,10 +1,12 @@
 
+
 xgb_fit <- function(data = data,
                     target = target,
                     split = split,
                     preproc_fun = preproc_fun,
                     params = params,
                     args = args,
+                    metrics = metrics,
                     ...) {
 
     assert_data_table(data)
@@ -42,13 +44,11 @@ xgb_fit <- function(data = data,
         prediction = predict(model, dval)
     )
 
-    rmse <- function(ground_truth, prediction) {
-        sqrt(mean((ground_truth - prediction)^2))
-    }
-
-    data.table(
-        nrounds_best = model$best_iteration,
-        rmse_sum_logs = preds[, rmse(ground_truth, prediction)]
+    res <- data.table(
+        nrounds_best = model$best_iteration
     )
-
+    for (metric in metrics) {
+        res[, (metric) := get(metric)(preds$ground_truth, preds$prediction)]
+    }
+    return(res[])
 }
