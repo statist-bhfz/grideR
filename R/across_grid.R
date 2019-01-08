@@ -1,26 +1,26 @@
 #' Train and evaluate model across combinations of tunable hyperparameters.
 #'
-#' Fit and evaluate xgboost model with data.table as input data. 
+#' Fit and evaluate xgboost model with data.table as input data.
 #' Model are trained (including all preprocessing steps) on train part and
 #' evaluated on validation part according to \code{split} indicator variable.
 #'
 #' @param data data.table with all input data.
 #' @param y Target variable name (character).
 #' @param split Indicator variable with 1 corresponds to observations in validation dataset.
-#' @param preproc_fun Preprocessing function which takes data.table \code{data}+\code{split} 
+#' @param preproc_fun Preprocessing function which takes data.table \code{data}+\code{split}
 #' as input and returns processed data.table with same \code{target} and \code{split} columns.
 #' @param grid data.table with combinations of tunable hyperparameters in rows.
 #' @param args List with parameters unchangeable during tuning.
 #' @param metrics Vector of metric functions names.
 #'
-#' @return data.table with composed with \code{grid}, optimal numbers of iterions (implies  
+#' @return data.table with composed with \code{grid}, optimal numbers of iterions (implies
 #' that we use early stopping) and all metrics calculated for validation part of the data.
 #'
 #' @examples
 #' # Input data
 #' dt <- as.data.table(mtcars)
 #' # data.table with resamples
-#' splits <- resampleR::cv_base(data, target)
+#' splits <- resampleR::cv_base(dt, "hp")
 #' # data.table with tunable model hyperparameters
 #' xgb_grid <- CJ(
 #'     max_depth = c(6, 8),
@@ -55,7 +55,7 @@
 #'             metrics = c("rmse", "mae"))
 #'
 #' @details
-#' 
+#'
 #'
 #' @import data.table
 #' @import checkmate

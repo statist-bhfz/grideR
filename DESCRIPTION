@@ -14,9 +14,9 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 Depends:
-    data.table (>= 1.11.8)
+    data.table (>= 1.11.8),
     resampleR (>= 0.1.0)
 Imports:
-    xgboost (>= 0.71.2)
+    xgboost (>= 0.71.2),
     checkmate (>= 1.8.5)
 RoxygenNote: 6.1.1
