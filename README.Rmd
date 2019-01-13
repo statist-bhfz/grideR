@@ -13,17 +13,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tuneR
+# grideR
 
-The goal of **tuneR** is to provides general infrastructure based on data.table
+The goal of **grideR** is to provides general infrastructure based on data.table
 for grid search in model hyperparameters space. Key feature: all preprocessing steps are performed within resamples. This package aims to be as easy to extend as possible. 
 
 ## Installation
 
-You can install dev version of **tuneR** from [GitHub](https://github.com) with:
+You can install dev version of **grideR** from [GitHub](https://github.com) with:
 
 ``` r
-devtools::install_github("statist-bhfz/tuneR")
+devtools::install_github("statist-bhfz/grideR")
 ```
 
 ## Example
@@ -31,6 +31,7 @@ devtools::install_github("statist-bhfz/tuneR")
 
 ```{r example}
 library(resampleR)
+library(grideR)
 library(parallel)
         
 # Input data
@@ -68,7 +69,7 @@ clusterExport(cl, list("dt", "splits",
                        "preproc_fun_example"))
 clusterEvalQ(cl, {
     suppressMessages(library(resampleR))
-    suppressMessages(library(tuneR))
+    suppressMessages(library(grideR))
     suppressMessages(library(checkmate))
     suppressMessages(library(data.table))
     suppressMessages(library(xgboost))

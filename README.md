@@ -1,17 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-tuneR
-=====
+grideR
+======
 
-The goal of **tuneR** is to provides general infrastructure based on data.table for grid search in model hyperparameters space. Key feature: all preprocessing steps are performed within resamples. This package aims to be as easy to extend as possible.
+The goal of **grideR** is to provides general infrastructure based on data.table for grid search in model hyperparameters space. Key feature: all preprocessing steps are performed within resamples. This package aims to be as easy to extend as possible.
 
 Installation
 ------------
 
-You can install dev version of **tuneR** from [GitHub](https://github.com) with:
+You can install dev version of **grideR** from [GitHub](https://github.com) with:
 
 ``` r
-devtools::install_github("statist-bhfz/tuneR")
+devtools::install_github("statist-bhfz/grideR")
 ```
 
 Example
@@ -20,6 +20,7 @@ Example
 ``` r
 library(resampleR)
 #> Loading required package: data.table
+library(grideR)
 library(parallel)
         
 # Input data
@@ -57,18 +58,18 @@ clusterExport(cl, list("dt", "splits",
                        "preproc_fun_example"))
 clusterEvalQ(cl, {
     suppressMessages(library(resampleR))
-    suppressMessages(library(tuneR))
+    suppressMessages(library(grideR))
     suppressMessages(library(checkmate))
     suppressMessages(library(data.table))
     suppressMessages(library(xgboost))
 })
 #> [[1]]
-#>  [1] "xgboost"    "checkmate"  "tuneR"      "resampleR"  "data.table"
+#>  [1] "xgboost"    "checkmate"  "grideR"     "resampleR"  "data.table"
 #>  [6] "stats"      "graphics"   "grDevices"  "utils"      "datasets"  
 #> [11] "methods"    "base"      
 #> 
 #> [[2]]
-#>  [1] "xgboost"    "checkmate"  "tuneR"      "resampleR"  "data.table"
+#>  [1] "xgboost"    "checkmate"  "grideR"     "resampleR"  "data.table"
 #>  [6] "stats"      "graphics"   "grDevices"  "utils"      "datasets"  
 #> [11] "methods"    "base"
 
@@ -106,27 +107,27 @@ res
 #> 18:     5         6 0.025              0.9       0.8     0
 #> 19:     5         8 0.025              0.9       0.8     0
 #> 20:     5         8 0.025              0.9       0.8     0
-#>     min_child_weight alpha lambda nrounds_best     rmse      mae
-#>  1:                3     0      1          149 14.07254 11.33070
-#>  2:                5     0      1          295 14.94696 13.26584
-#>  3:                3     0      1          155 13.85464 12.36905
-#>  4:                5     0      1          212 19.00899 16.78825
-#>  5:                3     0      1          237 15.28014 11.10874
-#>  6:                5     0      1          138 18.90782 16.41260
-#>  7:                3     0      1          187 15.15396 11.93570
-#>  8:                5     0      1          134 20.26588 17.73880
-#>  9:                3     0      1          116 21.94595 21.07602
-#> 10:                5     0      1          127 21.18658 19.67070
-#> 11:                3     0      1          131 20.68664 19.55153
-#> 12:                5     0      1          127 22.32248 20.54899
-#> 13:                3     0      1          406 58.25648 38.74395
-#> 14:                5     0      1          325 49.76484 34.78882
-#> 15:                3     0      1          393 57.34955 38.13544
-#> 16:                5     0      1          258 51.77159 36.43976
-#> 17:                3     0      1          117 17.68321 15.59404
-#> 18:                5     0      1           88 21.81053 18.95525
-#> 19:                3     0      1          107 20.44646 17.37061
-#> 20:                5     0      1           93 19.53339 16.04594
+#>     min_child_weight alpha lambda nrounds_best     rmse       mae
+#>  1:                3     0      1          254 25.82795 23.442172
+#>  2:                5     0      1          176 28.40845 24.490010
+#>  3:                3     0      1          234 29.13382 26.868994
+#>  4:                5     0      1          159 30.21812 26.535628
+#>  5:                3     0      1          205 25.17265 20.216885
+#>  6:                5     0      1          155 29.64170 25.587408
+#>  7:                3     0      1          171 27.14264 20.503756
+#>  8:                5     0      1          156 31.21857 27.003484
+#>  9:                3     0      1          157 10.68297  9.809113
+#> 10:                5     0      1          194 10.21284  8.511509
+#> 11:                3     0      1          156 11.42183 10.083486
+#> 12:                5     0      1          186 11.24998  9.353838
+#> 13:                3     0      1          171 36.60020 27.660245
+#> 14:                5     0      1          247 36.68939 25.642899
+#> 15:                3     0      1          222 31.90733 27.354782
+#> 16:                5     0      1          199 39.93131 27.828404
+#> 17:                3     0      1          273 50.17284 31.402931
+#> 18:                5     0      1          326 54.55717 32.347914
+#> 19:                3     0      1          290 52.87341 30.706714
+#> 20:                5     0      1          232 57.24948 33.237526
 
 stopCluster(cl)
 ```

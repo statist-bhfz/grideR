@@ -1,15 +1,15 @@
-Package: tuneR
+Package: grideR
 Title: Easy model tuning with data.table
 Version: 0.1.0
 Authors@R: c(
     person("Andrey", "Ogurtsov", email = "ogurtsov.a.b@gmail.com", role = c("aut", "cre")),
     person("Artem", "Klevtsov", email = "a.a.klevtsov@gmail.com", role = "aut"))
-Description: tuneR provides general infrastructure based on data.table for 
+Description: grideR provides general infrastructure based on data.table for 
     grid search in model hyperparameters space. Key feature: 
     all preprocessing steps are performed within resamples. 
     This package aims to be as easy to extend as possible. 
-URL: https://github.com/statist-bhfz/tuneR
-BugReports: https://github.com/statist-bhfz/tuneR/issues
+URL: https://github.com/statist-bhfz/grideR
+BugReports: https://github.com/statist-bhfz/grideR/issues
 License: MIT
 Encoding: UTF-8
 LazyData: true
