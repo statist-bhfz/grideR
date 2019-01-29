@@ -24,7 +24,7 @@ as input and returns processed data.table with same \code{target} and \code{spli
 \item{y}{Target variable name (character).}
 }
 \value{
-data.table with composed with \code{grid}, optimal numbers of iterions (implies
+data.table composed with \code{grid}, optimal numbers of iterions (implies
 that we use early stopping) and all metrics calculated for validation part of the data.
 }
 \description{

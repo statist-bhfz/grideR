@@ -13,7 +13,7 @@
 #' @param args List with parameters unchangeable during tuning.
 #' @param metrics Vector of metric functions names.
 #'
-#' @return data.table with composed with \code{grid}, optimal numbers of iterions (implies
+#' @return data.table composed with \code{grid}, optimal numbers of iterions (implies
 #' that we use early stopping) and all metrics calculated for validation part of the data.
 #'
 #' @examples
