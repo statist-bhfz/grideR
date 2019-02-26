@@ -12,9 +12,13 @@
 #' @param grid data.table with combinations of tunable hyperparameters in rows.
 #' @param args List with parameters unchangeable during tuning.
 #' @param metrics Vector of metric functions names.
-#'
+#' @param return_val_preds If \code{TRUE}, predictions for validation data 
+#' will be returned. 
+#' @param ... Other parameters for inner fit function.
+#' 
 #' @return data.table composed with \code{grid}, optimal numbers of iterions (implies
 #' that we use early stopping) and all metrics calculated for validation part of the data.
+#' It also contains predictions for validation data if \code{return_val_preds = TRUE}.
 #'
 #' @examples
 #' # Input data
@@ -52,7 +56,8 @@
 #'             preproc_fun = preproc_fun_example,
 #'             grid = xgb_grid,
 #'             args = xgb_args,
-#'             metrics = c("rmse", "mae"))
+#'             metrics = c("rmse", "mae"),
+#'             return_val_preds = FALSE)
 #'
 #' @details
 #'
@@ -69,6 +74,7 @@ across_grid <- function(data,
                         grid,
                         args,
                         metrics,
+                        return_val_preds = FALSE,
                         ...) {
 
     metrics <- lapply(seq_len(nrow(grid)),
@@ -78,7 +84,8 @@ across_grid <- function(data,
                                           preproc_fun = preproc_fun,
                                           params = grid[i, ],
                                           args = args,
-                                          metrics = metrics))
+                                          metrics = metrics,
+                                          return_val_preds = return_val_preds))
 
     metrics <- rbindlist(metrics)
 

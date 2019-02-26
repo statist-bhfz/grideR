@@ -6,7 +6,7 @@
 \usage{
 xgb_fit(data = data, target = target, split = split,
   preproc_fun = preproc_fun, params = params, args = args,
-  metrics = metrics, ...)
+  metrics = metrics, return_val_preds = FALSE, ...)
 }
 \arguments{
 \item{data}{data.table with all input data.}
@@ -22,11 +22,17 @@ as input and returns processed data.table with same \code{target} and \code{spli
 
 \item{metrics}{Vector of metric functions names.}
 
+\item{return_val_preds}{If \code{TRUE}, predictions for validation data 
+will be returned.}
+
+\item{...}{Other parameters for \code{xgb.train()}.}
+
 \item{y}{Target variable name (character).}
 }
 \value{
 data.table with optimal number of iterations (implies that we use early stopping)
-and all metrics calculated for validation part of the data.
+and all metrics calculated for validation part of the data. It also contains 
+predictions for validation data if \code{return_val_preds = TRUE}.
 }
 \description{
 Fit and evaluate xgboost model with data.table as input data.

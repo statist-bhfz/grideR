@@ -5,7 +5,7 @@
 \title{Train and evaluate model across combinations of tunable hyperparameters.}
 \usage{
 across_grid(data, target, split, fit_fun, preproc_fun, grid, args, metrics,
-  ...)
+  return_val_preds = FALSE, ...)
 }
 \arguments{
 \item{data}{data.table with all input data.}
@@ -21,11 +21,17 @@ as input and returns processed data.table with same \code{target} and \code{spli
 
 \item{metrics}{Vector of metric functions names.}
 
+\item{return_val_preds}{If \code{TRUE}, predictions for validation data 
+will be returned.}
+
+\item{...}{Other parameters for inner fit function.}
+
 \item{y}{Target variable name (character).}
 }
 \value{
 data.table composed with \code{grid}, optimal numbers of iterions (implies
 that we use early stopping) and all metrics calculated for validation part of the data.
+It also contains predictions for validation data if \code{return_val_preds = TRUE}.
 }
 \description{
 Fit and evaluate xgboost model with data.table as input data.
@@ -71,6 +77,7 @@ across_grid(data = dt,
             preproc_fun = preproc_fun_example,
             grid = xgb_grid,
             args = xgb_args,
-            metrics = c("rmse", "mae"))
+            metrics = c("rmse", "mae"),
+            return_val_preds = FALSE)
 
 }

@@ -12,9 +12,13 @@
 #' @param params 1-row data.table with tunable hyperparameters.
 #' @param args List with parameters unchangeable during tuning.
 #' @param metrics Vector of metric functions names.
+#' @param return_val_preds If \code{TRUE}, predictions for validation data 
+#' will be returned. 
+#' @param ... Other parameters for \code{xgb.train()}.
 #'
 #' @return data.table with optimal number of iterations (implies that we use early stopping)
-#' and all metrics calculated for validation part of the data.
+#' and all metrics calculated for validation part of the data. It also contains 
+#' predictions for validation data if \code{return_val_preds = TRUE}.
 #'
 #' @examples
 #' # Input data
@@ -67,6 +71,7 @@ xgb_fit <- function(data = data,
                     params = params,
                     args = args,
                     metrics = metrics,
+                    return_val_preds = FALSE,
                     ...) {
 
     assert_data_table(data)
@@ -110,5 +115,6 @@ xgb_fit <- function(data = data,
     for (metric in metrics) {
         res[, (metric) := get(metric)(preds$ground_truth, preds$prediction)]
     }
+    if (return_val_preds) res[, val_preds := list(list(preds[, prediction]))]
     return(res[])
 }
