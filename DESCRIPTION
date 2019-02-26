@@ -19,5 +19,6 @@ Remotes:
     resampleR (>= 0.1.0)
 Imports:
     xgboost (>= 0.71.2),
+    catboost (>= 0.12.2),
     checkmate (>= 1.8.5)
 RoxygenNote: 6.1.1
