@@ -5,8 +5,8 @@
 \title{Wrapper for catboost.train.}
 \usage{
 catboost_fit(data = data, target = target, split = split,
-  preproc_fun = preproc_fun, params = params, metrics = metrics,
-  return_val_preds = FALSE, ...)
+  preproc_fun = preproc_fun, params = params, args = NULL,
+  metrics = metrics, return_val_preds = FALSE, ...)
 }
 \arguments{
 \item{data}{data.table with all input data.}
@@ -17,6 +17,8 @@ catboost_fit(data = data, target = target, split = split,
 as input and returns processed data.table with same \code{target} and \code{split} columns.}
 
 \item{params}{1-row data.table with all hyperparameters.}
+
+\item{args}{NULL value for consistency with \code{xgb_fit()}.}
 
 \item{metrics}{Vector of metric functions names.}
 

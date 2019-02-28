@@ -10,6 +10,7 @@
 #' @param preproc_fun Preprocessing function which takes data.table \code{data}+\code{split}
 #' as input and returns processed data.table with same \code{target} and \code{split} columns.
 #' @param params 1-row data.table with all hyperparameters.
+#' @param args NULL value for consistency with \code{xgb_fit()}.
 #' @param metrics Vector of metric functions names.
 #' @param return_val_preds If \code{TRUE}, predictions for validation data 
 #' will be returned. 
@@ -62,6 +63,7 @@ catboost_fit <- function(data = data,
                          split = split,
                          preproc_fun = preproc_fun,
                          params = params,
+                         args = NULL,
                          metrics = metrics,
                          return_val_preds = FALSE,
                          ...) {
