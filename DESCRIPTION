@@ -20,5 +20,6 @@ Remotes:
 Imports:
     xgboost (>= 0.71.2),
     catboost (>= 0.12.2),
+    lightgbm (>= 2.2.4),
     checkmate (>= 1.8.5)
 RoxygenNote: 6.1.1
