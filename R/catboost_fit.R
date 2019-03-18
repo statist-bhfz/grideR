@@ -14,7 +14,7 @@
 #' @param metrics Vector of metric functions names.
 #' @param return_val_preds If \code{TRUE}, predictions for validation data 
 #' will be returned. 
-#' @param ... Other parameters for \code{xgb.train()}.
+#' @param ... Other parameters for \code{catboost.train()}.
 #'
 #' @return data.table with optimal number of iterations (implies that we use early stopping)
 #' and all metrics calculated for validation part of the data. It also contains 
@@ -33,7 +33,7 @@
 #'     loss_function = "RMSE",
 #'     eval_metric = "RMSE",
 #'     random_seed = 42,
-#'     od_type = 'Iter',
+#'     od_type = "Iter",
 #'     # metric_period = 50,
 #'     od_wait = 10,
 #'     use_best_model = TRUE,

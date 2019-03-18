@@ -25,7 +25,7 @@ as input and returns processed data.table with same \code{target} and \code{spli
 \item{return_val_preds}{If \code{TRUE}, predictions for validation data 
 will be returned.}
 
-\item{...}{Other parameters for \code{xgb.train()}.}
+\item{...}{Other parameters for \code{catboost.train()}.}
 
 \item{y}{Target variable name (character).}
 }
@@ -55,7 +55,7 @@ catboost_grid <- CJ(
     loss_function = "RMSE",
     eval_metric = "RMSE",
     random_seed = 42,
-    od_type = 'Iter',
+    od_type = "Iter",
     # metric_period = 50,
     od_wait = 10,
     use_best_model = TRUE,
