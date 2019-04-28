@@ -6,7 +6,8 @@
 \usage{
 catboost_fit(data = data, target = target, split = split,
   preproc_fun = preproc_fun, params = params, args = NULL,
-  metrics = metrics, return_val_preds = FALSE, ...)
+  metrics = metrics, return_val_preds = FALSE,
+  return_model_obj = FALSE, ...)
 }
 \arguments{
 \item{data}{data.table with all input data.}
@@ -24,6 +25,8 @@ as input and returns processed data.table with same \code{target} and \code{spli
 
 \item{return_val_preds}{If \code{TRUE}, predictions for validation data 
 will be returned.}
+
+\item{return_model_obj}{If \code{TRUE}, model object will be returned.}
 
 \item{...}{Other parameters for \code{catboost.train()}.}
 
