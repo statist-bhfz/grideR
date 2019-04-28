@@ -14,6 +14,7 @@
 #' @param metrics Vector of metric functions names.
 #' @param return_val_preds If \code{TRUE}, predictions for validation data 
 #' will be returned. 
+#' @param return_model_obj If \code{TRUE}, model object will be returned.
 #' @param ... Other parameters for \code{catboost.train()}.
 #'
 #' @return data.table with optimal number of iterations (implies that we use early stopping)
@@ -66,6 +67,7 @@ catboost_fit <- function(data = data,
                          args = NULL,
                          metrics = metrics,
                          return_val_preds = FALSE,
+                         return_model_obj = FALSE,
                          ...) {
     
     assert_data_table(data)
@@ -98,9 +100,13 @@ catboost_fit <- function(data = data,
     res <- data.table(
         nrounds_best = model$tree_count
     )
+    
     for (metric in metrics) {
         res[, (metric) := get(metric)(preds$ground_truth, preds$prediction)]
     }
+    
     if (return_val_preds) res[, val_preds := list(list(preds[, prediction]))]
+    if (return_model_obj) res[, model_obj := .(list(model))]
+    
     return(res[])
 }
