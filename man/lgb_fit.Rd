@@ -11,6 +11,8 @@ lgb_fit(data = data, target = target, split = split,
 \arguments{
 \item{data}{data.table with all input data.}
 
+\item{target}{Target variable name (character).}
+
 \item{split}{Indicator variable with 1 corresponds to observations in validation dataset.}
 
 \item{preproc_fun}{Preprocessing function which takes data.table \code{data}+\code{split}
@@ -26,8 +28,6 @@ as input and returns processed data.table with same \code{target} and \code{spli
 will be returned.}
 
 \item{...}{Other parameters for \code{kgb.train()}.}
-
-\item{y}{Target variable name (character).}
 }
 \value{
 data.table with optimal number of iterations (implies that we use early stopping)

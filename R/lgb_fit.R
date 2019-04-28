@@ -5,7 +5,7 @@
 #' evaluated on validation part according to \code{split} indicator variable.
 #'
 #' @param data data.table with all input data.
-#' @param y Target variable name (character).
+#' @param target Target variable name (character).
 #' @param split Indicator variable with 1 corresponds to observations in validation dataset.
 #' @param preproc_fun Preprocessing function which takes data.table \code{data}+\code{split}
 #' as input and returns processed data.table with same \code{target} and \code{split} columns.

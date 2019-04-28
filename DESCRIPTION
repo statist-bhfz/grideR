@@ -16,7 +16,7 @@ LazyData: true
 Depends:
     data.table (>= 1.11.8)
 Remotes:
-    resampleR (>= 0.1.0)
+    statist-bhfz/resampleR (>= 0.1.0)
 Imports:
     xgboost (>= 0.71.2),
     catboost (>= 0.12.2),
