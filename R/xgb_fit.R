@@ -15,6 +15,8 @@
 #' @param return_val_preds If \code{TRUE}, predictions for validation data 
 #' will be returned.
 #' @param return_model_obj If \code{TRUE}, model object will be returned.
+#' @param train_on_all_data If \code{TRUE}, model will be fitted on all data
+#' (without train/validation split) and model object will be returned.
 #' @param ... Other parameters for \code{xgb.train()}.
 #'
 #' @return data.table with optimal number of iterations (implies that we use early stopping)
@@ -74,21 +76,35 @@ xgb_fit <- function(data = data,
                     metrics = metrics,
                     return_val_preds = FALSE,
                     return_model_obj = FALSE,
+                    train_on_all_data = FALSE,
                     ...) {
 
     assert_data_table(data)
-    assert_integerish(split, len = data[, .N])
+    if (!train_on_all_data) assert_integerish(split, len = data[, .N])
     assert_data_table(params)
     assert_list(args)
 
     data <- copy(data)[, split := split]
     data <- preproc_fun(data)
-
+    
+    if(train_on_all_data) {
+        cols_to_drop <- c(target)
+        dtrain <- xgb.DMatrix(
+            data = as.matrix(data[, .SD, .SDcols = -cols_to_drop]),
+            label = as.matrix(data[, get(target)])
+        )
+        args <- c(args,
+                  list(params = as.list(params),
+                       data = dtrain))
+        model <- do.call(xgb.train, args)
+        return(model)
+    }
+    
     train <- data[split == 0, ]
     val <- data[split == 1, ]
-
+    
     cols_to_drop <- c(target, "split")
-
+    
     dtrain <- xgb.DMatrix(
         data = as.matrix(train[, .SD, .SDcols = -cols_to_drop]),
         label = as.matrix(train[, get(target)])
@@ -101,7 +117,7 @@ xgb_fit <- function(data = data,
 
     args <- c(args,
               list(params = as.list(params),
-                   watchlist = list(vas = dval),
+                   watchlist = list(val = dval),
                    data = dtrain))
 
     model <- do.call(xgb.train, args)

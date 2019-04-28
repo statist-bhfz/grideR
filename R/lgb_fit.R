@@ -15,6 +15,8 @@
 #' @param return_val_preds If \code{TRUE}, predictions for validation data 
 #' will be returned. 
 #' @param return_model_obj If \code{TRUE}, model object will be returned.
+#' @param train_on_all_data If \code{TRUE}, model will be fitted on all data
+#' (without train/validation split) and model object will be returned.
 #' @param ... Other parameters for \code{kgb.train()}.
 #'
 #' @return data.table with optimal number of iterations (implies that we use early stopping)
@@ -82,11 +84,20 @@ lgb_fit <- function(data = data,
                     ...) {
     
     assert_data_table(data)
-    assert_integerish(split, len = data[, .N])
+    if (!train_on_all_data) assert_integerish(split, len = data[, .N])
     assert_data_table(params)
     
     data <- copy(data)[, split := split]
     data <- preproc_fun(data)
+    
+    if(train_on_all_data) {
+        cols_to_drop <- c(target)
+        dtrain <- lgb.Dataset(as.matrix(data[, .SD, .SDcols = -cols_to_drop]), 
+                              label = data[, get(target)])
+        model <- catboost.train(dtrain,
+                                params = as.list(params))
+        return(model)
+    }
     
     train <- data[split == 0, ]
     val <- data[split == 1, ]

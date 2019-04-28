@@ -31,6 +31,9 @@ will be returned.}
 \item{...}{Other parameters for \code{catboost.train()}.}
 
 \item{y}{Target variable name (character).}
+
+\item{train_on_all_data}{If \code{TRUE}, model will be fitted on all data
+(without train/validation split) and model object will be returned.}
 }
 \value{
 data.table with optimal number of iterations (implies that we use early stopping)
