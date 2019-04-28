@@ -81,6 +81,7 @@ lgb_fit <- function(data = data,
                     metrics = metrics,
                     return_val_preds = FALSE,
                     return_model_obj = FALSE,
+                    train_on_all_data = FALSE,
                     ...) {
     
     assert_data_table(data)
@@ -90,12 +91,14 @@ lgb_fit <- function(data = data,
     data <- copy(data)[, split := split]
     data <- preproc_fun(data)
     
-    if(train_on_all_data) {
+    if (train_on_all_data) {
         cols_to_drop <- c(target)
         dtrain <- lgb.Dataset(as.matrix(data[, .SD, .SDcols = -cols_to_drop]), 
                               label = data[, get(target)])
-        model <- catboost.train(dtrain,
-                                params = as.list(params))
+        args <- c(lgb_args, 
+                  list(params = as.list(params), 
+                       data = dtrain))
+        model <- do.call(lgb.train, args) 
         return(model)
     }
     

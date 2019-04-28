@@ -70,6 +70,7 @@ catboost_fit <- function(data = data,
                          metrics = metrics,
                          return_val_preds = FALSE,
                          return_model_obj = FALSE,
+                         train_on_all_data = FALSE,
                          ...) {
     
     assert_data_table(data)
@@ -79,14 +80,15 @@ catboost_fit <- function(data = data,
     data <- copy(data)[, split := split]
     data <- preproc_fun(data)
     
-    if(train_on_all_data) {
+    if (train_on_all_data) {
         cols_to_drop <- c(target)
         dtrain <- catboost.load_pool(data[, .SD, .SDcols = -cols_to_drop],
-                                     label = train[, get(target)])
+                                     label = data[, get(target)])
         args <- c(args,
                   list(params = as.list(params),
                        data = dtrain))
-        model <- do.call(xgb.train, args)
+        model <-  catboost.train(dtrain,
+                                 params = as.list(params))
         return(model)
     }
     

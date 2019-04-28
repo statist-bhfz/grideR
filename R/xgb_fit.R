@@ -87,7 +87,7 @@ xgb_fit <- function(data = data,
     data <- copy(data)[, split := split]
     data <- preproc_fun(data)
     
-    if(train_on_all_data) {
+    if (train_on_all_data) {
         cols_to_drop <- c(target)
         dtrain <- xgb.DMatrix(
             data = as.matrix(data[, .SD, .SDcols = -cols_to_drop]),
