@@ -36,9 +36,11 @@ will be returned.}
 \item{...}{Other parameters for \code{kgb.train()}.}
 }
 \value{
-data.table with optimal number of iterations (implies that we use early stopping)
+data.table with optimal number of iterations (if early stopping is used)
 and all metrics calculated for validation part of the data. It also contains 
-predictions for validation data if \code{return_val_preds = TRUE}.
+predictions for validation data if \code{return_val_preds = TRUE} and 
+model object if \code{return_model_obj = TRUE}. 
+If \code{train_on_all_data = TRUE}, only model object will be returned.
 }
 \description{
 Fit and evaluate lightgbm model with data.table as input data.
