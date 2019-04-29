@@ -84,6 +84,7 @@ catboost_fit <- function(data = data,
         cols_to_drop <- c(target)
         dtrain <- catboost.load_pool(data[, .SD, .SDcols = -cols_to_drop],
                                      label = data[, get(target)])
+        rm(data)
         args <- c(args,
                   list(params = as.list(params),
                        data = dtrain))
@@ -92,23 +93,24 @@ catboost_fit <- function(data = data,
         return(model)
     }
     
-    train <- data[split == 0, ]
-    val <- data[split == 1, ]
+    val_ground_truth <- data[split == 1, get(target)]
     
     cols_to_drop <- c(target, "split")
     
-    dtrain <- catboost.load_pool(train[, .SD, .SDcols = -cols_to_drop],
-                                 label = train[, get(target)])
+    dtrain <- catboost.load_pool(data[split == 0, .SD, .SDcols = -cols_to_drop],
+                                 label = data[split == 0, get(target)])
     
-    dval <- catboost.load_pool(val[, .SD, .SDcols = -cols_to_drop],
-                               label = val[, get(target)])
+    dval <- catboost.load_pool(data[split == 1, .SD, .SDcols = -cols_to_drop],
+                               label = data[split == 1, get(target)])
+    
+    rm(data)
     
     model <- catboost.train(dtrain,
                             test_pool = dval,
                             params = as.list(params))
     
     preds <- data.table(
-        ground_truth = val[, get(target)],
+        ground_truth = val_ground_truth,
         prediction = catboost.predict(model, dval)
     )
     

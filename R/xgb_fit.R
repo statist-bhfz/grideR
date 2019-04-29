@@ -93,6 +93,7 @@ xgb_fit <- function(data = data,
             data = as.matrix(data[, .SD, .SDcols = -cols_to_drop]),
             label = as.matrix(data[, get(target)])
         )
+        rm(data)
         args <- c(args,
                   list(params = as.list(params),
                        data = dtrain))
@@ -100,20 +101,21 @@ xgb_fit <- function(data = data,
         return(model)
     }
     
-    train <- data[split == 0, ]
-    val <- data[split == 1, ]
+    val_ground_truth <- data[split == 1, get(target)]
     
     cols_to_drop <- c(target, "split")
     
     dtrain <- xgb.DMatrix(
-        data = as.matrix(train[, .SD, .SDcols = -cols_to_drop]),
-        label = as.matrix(train[, get(target)])
+        data = as.matrix(data[split == 0, .SD, .SDcols = -cols_to_drop]),
+        label = as.matrix(data[split == 0, get(target)])
     )
 
     dval <- xgb.DMatrix(
-        data = as.matrix(val[, .SD, .SDcols = -cols_to_drop]),
-        label = as.matrix(val[, get(target)])
+        data = as.matrix(data[split == 1, .SD, .SDcols = -cols_to_drop]),
+        label = as.matrix(data[split == 1, get(target)])
     )
+    
+    rm(data)
 
     args <- c(args,
               list(params = as.list(params),
@@ -123,7 +125,7 @@ xgb_fit <- function(data = data,
     model <- do.call(xgb.train, args)
 
     preds <- data.table(
-        ground_truth = val[, get(target)],
+        ground_truth = val_ground_truth,
         prediction = predict(model, dval)
     )
 

@@ -95,6 +95,7 @@ lgb_fit <- function(data = data,
         cols_to_drop <- c(target)
         dtrain <- lgb.Dataset(as.matrix(data[, .SD, .SDcols = -cols_to_drop]), 
                               label = data[, get(target)])
+        rm(data)
         args <- c(lgb_args, 
                   list(params = as.list(params), 
                        data = dtrain))
@@ -102,16 +103,17 @@ lgb_fit <- function(data = data,
         return(model)
     }
     
-    train <- data[split == 0, ]
     val <- data[split == 1, ]
     
     cols_to_drop <- c(target, "split")
     
-    dtrain <- lgb.Dataset(as.matrix(train[, .SD, .SDcols = -cols_to_drop]), 
-                          label = train[, get(target)])
+    dtrain <- lgb.Dataset(as.matrix(data[split == 0, .SD, .SDcols = -cols_to_drop]), 
+                          label = data[split == 0, get(target)])
     
-    dval <- lgb.Dataset(as.matrix(val[, .SD, .SDcols = -cols_to_drop]), 
-                        label = val[, get(target)])
+    dval <- lgb.Dataset(as.matrix(data[split == 1, .SD, .SDcols = -cols_to_drop]), 
+                        label = data[split == 1, get(target)])
+    
+    rm(data)
     
     args <- c(lgb_args, 
               list(params = as.list(params), 
